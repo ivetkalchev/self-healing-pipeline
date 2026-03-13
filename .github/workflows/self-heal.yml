@@ -17,8 +17,8 @@ jobs:
 
       - name: Run Application
         id: run_step
-        run: python app.py 2>&1 | tee error.log
-        continue-on-error: true # allows the pipeline to keep going even if it fails
+        run: python app.py
+        continue-on-error: true # This allows the pipeline to keep going even if it fails
 
       - name: Run AI Healer
         if: steps.run_step.outcome == 'failure'
