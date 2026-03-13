@@ -3,14 +3,13 @@ import sys
 def process_data(data_list):
     """
     Calculates the sum of a list. 
-    Intentional Bug: It doesn't handle strings inside the list, 
-    causing a TypeError.
+    Handles string numeric values by converting them to integers.
     """
     print(f"DEBUG: Processing list: {data_list}")
     
     total = 0
     for item in data_list:
-        total += item 
+        total += int(item) 
     
     return total
 
