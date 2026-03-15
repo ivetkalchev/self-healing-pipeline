@@ -18,23 +18,22 @@ jobs:
       - name: Run Application
         id: run_step
         run: python app.py
-        continue-on-error: true # This allows the pipeline to keep going even if it fails
+        continue-on-error: true # allows the pipeline to keep going even if it fails
 
       - name: Run AI Healer
         if: steps.run_step.outcome == 'failure'
         env:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           pip install google-generativeai python-dotenv
           python healer.py
-          
-          # Git magic to create a PR
+
+          # git creates a PR
           git config --global user.name "AI-Healer-Bot"
           git config --global user.email "bot@ai.com"
-          git checkout -b fix/ai-remediation-${{ github.run_id }}
+          git checkout -b fix/ai-fix-${{ github.run_id }}
           git add app.py
           git commit -m "AI: Applied fix for pipeline failure"
-          git push origin fix/ai-remediation-${{ github.run_id }}
+          git push origin fix/ai-fix-${{ github.run_id }}
           
-          gh pr create --title "🤖 AI Fix: Pipeline Remediation" --body "I detected a failure and generated this patch."
+          gh pr create --title "🤖 AI Fix" --body "I detected a failure and generated this patch."
