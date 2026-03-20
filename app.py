@@ -2,13 +2,10 @@ import sys
 import json
 
 def process_data(data_list):
-
     print(f"DEBUG: Processing list: {data_list}")
-    
     total = 0
     for item in data_list:
-        total += item
-    
+        total += int(item)
     return total
 
 if __name__ == "__main__":
@@ -23,8 +20,8 @@ if __name__ == "__main__":
         error_type = type(e).__name__
         error_message = str(e)
 
-        print(f"ERROR_TYPE: {type(e).__name__}")
-        print(f"ERROR_MESSAGE: {e}")
+        print(f"ERROR_TYPE: {error_type}")
+        print(f"ERROR_MESSAGE: {error_message}")
 
         with open("error.log", "w") as log:
             json.dump({
@@ -32,5 +29,4 @@ if __name__ == "__main__":
                 "message": error_message
             }, log)
 
-        # exit with code 1
         sys.exit(1)
