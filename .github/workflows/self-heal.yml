@@ -29,7 +29,7 @@ jobs:
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          pip install google-generativeai python-dotenv
+          pip install google-genai python-dotenv
           python healer.py
 
           # git creates a PR
