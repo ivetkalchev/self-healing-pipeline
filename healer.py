@@ -1,12 +1,11 @@
 import os
 import json
+from google import genai
 from dotenv import load_dotenv
-import google.generativeai as genai
 
 load_dotenv()
 
-genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
-model = genai.GenerativeModel('gemini-3-flash-preview')
+client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
 
 def fix_my_code(error_message, source_code):
 
@@ -15,12 +14,16 @@ def fix_my_code(error_message, source_code):
     ERROR: {error_message}
     ORIGINAL CODE:
     {source_code}
-    
+
     TASK: Fix the code. 
     CONSTRAINTS: Return ONLY the raw code. No markdown code blocks (```), no explanations.
-"""
-    
-    response = model.generate_content(prompt)
+    """
+
+    response = client.models.generate_content(
+        model="gemini-3-flash-preview",
+        contents=prompt,
+    )
+
     return response.text.strip()
 
 if __name__ == "__main__":
@@ -29,14 +32,14 @@ if __name__ == "__main__":
     with open("processor.py", "r") as f:
         broken_code = f.read()
     
-    # 2. reads from the logs file 
+    # 2. read error log
     with open("error.log", "r") as log:
         error_data = json.load(log)
     
-    test_error = f"{error_data['type']}: {error_data['message']}"    
-    
+    error_message = f"{error_data['type']}: {error_data['message']}"
+
     # 3. get the fix
-    fixed_code = fix_my_code(error_data, broken_code)
+    fixed_code = fix_my_code(error_message, broken_code)
     
     # 4. overwrite the file with the fix
     with open("processor.py", "w") as f:
