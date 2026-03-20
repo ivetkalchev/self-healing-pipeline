@@ -26,7 +26,7 @@ def fix_my_code(error_message, source_code):
 if __name__ == "__main__":
 
     # 1. read the broken file
-    with open("app.py", "r") as f:
+    with open("processor.py", "r") as f:
         broken_code = f.read()
     
     # 2. reads from the logs file 
@@ -39,5 +39,5 @@ if __name__ == "__main__":
     fixed_code = fix_my_code(error_data, broken_code)
     
     # 4. overwrite the file with the fix
-    with open("app.py", "w") as f:
+    with open("processor.py", "w") as f:
         f.write(fixed_code)

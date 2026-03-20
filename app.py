@@ -1,36 +1,24 @@
 import sys
 import json
-
-def process_data(data_list):
-
-    print(f"DEBUG: Processing list: {data_list}")
-    
-    total = 0
-    for item in data_list:
-        total += item
-    
-    return total
+import traceback
+from processor import process_data
 
 if __name__ == "__main__":
-    my_data = [5, 15, "10", 20]
     
     try:
-        result = process_data(my_data)
+        result = process_data()
         print(f"Success! The total is: {result}")
+    
     except Exception as e:
-        print(f"APPLICATION CRASHED")
-
-        error_type = type(e).__name__
-        error_message = str(e)
-
+        print("APPLICATION CRASHED")
         print(f"ERROR_TYPE: {type(e).__name__}")
-        print(f"ERROR_MESSAGE: {e}")
+        print(f"ERROR_MESSAGE: {str(e)}")
 
         with open("error.log", "w") as log:
             json.dump({
-                "type": error_type,
-                "message": error_message
+                "type": type(e).__name__,
+                "message": str(e),
+                "trace": traceback.format_exc()
             }, log)
 
-        # exit with code 1
         sys.exit(1)
