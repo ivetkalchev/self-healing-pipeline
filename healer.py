@@ -1,4 +1,5 @@
 import os
+import json
 from dotenv import load_dotenv
 import google.generativeai as genai
 
@@ -28,11 +29,14 @@ if __name__ == "__main__":
     with open("app.py", "r") as f:
         broken_code = f.read()
     
-    # 2. reads from the logs file to get the error message (now it is hardcoded)
-    test_error = "TypeError: unsupported operand type(s) for +: 'int' and 'str'"
+    # 2. reads from the logs file 
+    with open("error.log", "r") as log:
+        error_data = json.load(log)
+    
+    test_error = f"{error_data['type']}: {error_data['message']}"    
     
     # 3. get the fix
-    fixed_code = fix_my_code(test_error, broken_code)
+    fixed_code = fix_my_code(error_data, broken_code)
     
     # 4. overwrite the file with the fix
     with open("app.py", "w") as f:
