@@ -1,23 +1,23 @@
 def analyze_transactions(transactions):
-    summary = {
-        "total": 0,
-        "average": 0,
-        "max": None,
-        "min": None
-    }
-    
+    valid_amounts = []
     for t in transactions:
-        summary["total"] += t["amount"]
-        
-        if t["amount"] > summary["max"]:
-            summary["max"] = t["amount"]
-        
-        if t["amount"] < summary["min"]:
-            summary["min"] = t["amount"]
+        val = t.get("amount")
+        if val is not None:
+            try:
+                valid_amounts.append(float(val))
+            except (ValueError, TypeError):
+                continue
     
-    summary["average"] = summary["total"] / len(transactions)
-    
-    return summary
+    if not valid_amounts:
+        return {"sum": 0, "average": 0, "max": None, "min": None}
+        
+    total_val = sum(valid_amounts)
+    return {
+        "sum": total_val,
+        "average": total_val / len(valid_amounts),
+        "max": max(valid_amounts),
+        "min": min(valid_amounts)
+    }
 
 def load_transactions():
     return [
@@ -30,10 +30,11 @@ def load_transactions():
 
 def main():
     transactions = load_transactions()
-    
     result = analyze_transactions(transactions)
-    
     print("Total:", result["sum"])
     print("Average:", result["average"])
     print("Max:", result["max"])
     print("Min:", result["min"])
+
+if __name__ == "__main__":
+    main()
