@@ -1,13 +1,12 @@
 import sys
 import json
 import traceback
-from processor import process_data
+from processor import main
 
 if __name__ == "__main__":
     
     try:
-        result = process_data()
-        print(f"Success! The total is: {result}")
+        result = main()
     
     except Exception as e:
         print("APPLICATION CRASHED")

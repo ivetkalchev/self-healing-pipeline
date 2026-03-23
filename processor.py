@@ -37,6 +37,3 @@ def main():
     print("Average:", result["average"])
     print("Max:", result["max"])
     print("Min:", result["min"])
-
-if __name__ == "__main__":
-    main()
