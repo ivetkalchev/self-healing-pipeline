@@ -28,11 +28,15 @@ def fix_my_code(error_message, source_code):
 
 if __name__ == "__main__":
 
-    # 1. read the broken file
+    # 1. read the broken file    
     with open("processor.py", "r") as f:
         broken_code = f.read()
     
     # 2. read error log
+    if not os.path.exists("error.log"):
+        print("No error.log found. Exiting healer.")
+        exit(0)
+    
     with open("error.log", "r") as log:
         error_data = json.load(log)
     
