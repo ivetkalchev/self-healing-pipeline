@@ -3,7 +3,7 @@ def process_data():
     
     total = 0
     for item in data_list:
-        total += item
+        total += int(item)
     
     return total
 
